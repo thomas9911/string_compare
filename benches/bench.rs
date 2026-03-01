@@ -8,8 +8,10 @@ use test::Bencher;
 const SMALL_A: &'static str = "hallohallohallohallohallo";
 const SMALL_B: &'static str = "hallohallohallohallohallb";
 
-const MEDIUM_A: &'static str = "hallohallohallohallohallohallohallohallohallohallohallohallohallohallo";
-const MEDIUM_B: &'static str = "hallohallohallohallohallohallohallohallohallohallohallohallohallohallb";
+const MEDIUM_A: &'static str =
+    "hallohallohallohallohallohallohallohallohallohallohallohallohallohallo";
+const MEDIUM_B: &'static str =
+    "hallohallohallohallohallohallohallohallohallohallohallohallohallohallb";
 
 #[bench]
 fn small_compare_rust(b: &mut Bencher) {
@@ -38,6 +40,14 @@ fn small_compare_asm(b: &mut Bencher) {
     });
 }
 
+#[bench]
+fn small_compare_simd(b: &mut Bencher) {
+    b.iter(|| {
+        let a = test::black_box(SMALL_A);
+        let b = test::black_box(SMALL_B);
+        compare_simd(a, b)
+    });
+}
 
 #[bench]
 fn medium_compare_rust(b: &mut Bencher) {
@@ -63,5 +73,14 @@ fn medium_compare_asm(b: &mut Bencher) {
         let a = test::black_box(MEDIUM_A);
         let b = test::black_box(MEDIUM_B);
         compare_asm(a, b)
+    });
+}
+
+#[bench]
+fn medium_compare_simd(b: &mut Bencher) {
+    b.iter(|| {
+        let a = test::black_box(MEDIUM_A);
+        let b = test::black_box(MEDIUM_B);
+        compare_simd(a, b)
     });
 }
