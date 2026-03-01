@@ -481,26 +481,20 @@ mod tests {
 
     #[test]
     fn it_works_tree() {
-        let result = compare_asm("hallo", "hallb");
-        assert_eq!(result, false);
+        assert!(!compare_asm("hallo", "hallb"));
+        assert!(compare_asm("hallo", "hallo"));
     }
 
     #[test]
     fn it_works_simd() {
-        assert_eq!(
-            false,
-            compare_simd(
-                "hallohallohallohallohallohallohallohallohallo",
-                "hallohallohallohallohallohallohallohallohallb"
-            )
-        );
-        assert_eq!(
-            true,
-            compare_simd(
-                "hallohallohallohallohallohallohallohallohallo",
-                "hallohallohallohallohallohallohallohallohallo"
-            )
-        );
+        assert!(!compare_simd(
+            "hallohallohallohallohallohallohallohallohallo",
+            "hallohallohallohallohallohallohallohallohallb"
+        ));
+        assert!(compare_simd(
+            "hallohallohallohallohallohallohallohallohallo",
+            "hallohallohallohallohallohallohallohallohallo"
+        ));
     }
 
     #[test]
